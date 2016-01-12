@@ -1,10 +1,13 @@
 {
-"name": "Sketchtab",
-"description": "New tab page with code editor",
-"version": "0.1",
-"incognito": "split",
-"chrome_url_overrides": {
-"newtab": "index.html"
-},
-"manifest_version": 2
+	"name": "Sketchtab",
+	"description": "New tab page with code editor",
+	"version": "0.2",
+	"incognito": "split",
+	"chrome_url_overrides": {
+		"newtab": "index.html"
+	},
+	"web_accessible_resources": [
+		"index.html"
+	],
+	"manifest_version": 2
 }
