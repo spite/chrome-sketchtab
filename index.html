@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
+</head>
+<body>
+	<header>
+		<h1>Sketchtab</h1>
+		<a href="#" id="newButton">New sketch</a>
+		<!--<span>Layout:</span>
+		<a href="#" id="columnsButton">Columns</a>
+		<a href="#" id="rowsButton">Rows</a>-->
+	</header>
+	<div id="main" class="rows" >
+		<div class="container" id="html-panel" >
+			<div class="toolbar" >
+				<h3>HTML</h3>
+			</div>
+			<textarea id="html-src" class="block"></textarea>
+		</div>
+		<div class="container" id="css-panel" >
+			<div class="toolbar" >
+				<h3>CSS</h3>
+			</div>
+			<textarea id="css-src" class="block"></textarea>
+		</div>
+		<div class="container" id="js-panel" >
+			<div class="toolbar" >
+				<h3>JavaScript</h3>
+			</div>
+			<textarea id="js-src" class="block"></textarea>
+		</div>
+		<div class="container" id="output-panel" >
+			<div class="toolbar" >
+				<h3>Output</h3>
+				<a href="#" id="reloadButton" >Reload</a>
+			</div>
+			<iframe id="html-output" class="block"></iframe>
+		</div>
+		<div class="container" id="console-panel" >
+			<div class="toolbar" >
+				<h3>Console</h3>
+				<a href="#" id="clearConsoleButton">Clear</a>
+				<span><input type="checkbox" id="autoClearConsole" /><label for="autoClearConsole" >Auto-clear</label></span>
+			</div>
+			<ul id="console-output" class="block"></ul>
+		</div>
+	</div>
+	<script src="script.js" ></script>
+</body>
+</html>
