@@ -1,7 +1,8 @@
 {
 	"name": "Sketchtab",
+	"short_name": "Sketchtab",
 	"description": "New tab page with code editor",
-	"version": "0.2",
+	"version": "0.3",
 	"incognito": "split",
 	"chrome_url_overrides": {
 		"newtab": "index.html"
