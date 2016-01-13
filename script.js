@@ -44,13 +44,21 @@ function onUpdate() {
 
 }
 
+var sandbox = null;
+
 function updateSources() {
 
 	if( autoClearConsole.checked ) {
 		clearConsole();
 	}
 
-	try{ eval(jsSrc.value) } catch( e ) { log( e.message, 'error' ); }
+	if( sandbox ) {
+		var evalData = {
+			message: 'eval',
+			source: jsSrc.value
+		}
+		sandbox.postMessage( JSON.stringify( evalData ), '*' );
+	}
 
 	var res = htmlSrc.value;
 	res += '<style>' + cssSrc.value + '<\/style>';
@@ -66,6 +74,17 @@ window.addEventListener( 'message', onMessage );
 function onMessage( msg ) {
 
 	var d = JSON.parse( msg.data );
+
+	if( d.message === 'sandbox' ) {
+		sandbox = msg.source;
+		updateSources();
+		return;
+	}
+
+	if( d.message === 'sandbox-eval' ) {
+		log( d.result );
+		return;
+	}
 
 	switch( d.message ) {
 		case 'console.log':

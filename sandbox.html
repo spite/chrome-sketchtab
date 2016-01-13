@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+<script type="text/javascript">
+function evaluate(s){ return eval(s) }
+
+window.addEventListener( 'message', function( msg ) {
+	
+	var d = JSON.parse( msg.data );
+	if( d.message === 'eval' ) {
+		try{
+			eval( d.source );
+		} catch( e ) {
+			var evalData = {
+				message: 'sandbox-eval',
+				result: e.message
+			}
+			parent.postMessage( JSON.stringify( evalData ), '*' );
+		}
+	}
+
+} );
+
+parent.postMessage( '{"message": "sandbox"}', '*' );
+
+</script>
+</body>
+<html>

@@ -30,3 +30,4 @@ header * { padding: 10px;}
 
 li.warning{ color: orange;}
 li.error{ color: red;}
+#sandbox{ display: none;}
