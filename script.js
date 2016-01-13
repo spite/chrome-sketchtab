@@ -50,6 +50,8 @@ function updateSources() {
 		clearConsole();
 	}
 
+	try{ eval(jsSrc.value) } catch( e ) { log( e.message, 'error' ); }
+
 	var res = htmlSrc.value;
 	res += '<style>' + cssSrc.value + '<\/style>';
 	res += '<script>' + inject.toString() + ';inject();<\/script>';
@@ -67,37 +69,59 @@ function onMessage( msg ) {
 
 	switch( d.message ) {
 		case 'console.log':
-		console.log.apply( console, d.arguments );
-		var li = document.createElement( 'li' );
-		
-		d.arguments.forEach( function( a ) {
-			var span = document.createElement( 'span' );
-			if( typeof a === 'string' || typeof a === 'number' ) span.textContent = a;
-			else {
-				span.textContent = JSON.stringify( a );	
-			}
-			li.appendChild( span );
-		})
-		consoleOutput.appendChild( li );
+		log( d.arguments );
+		break;
+		case 'console.error':
+		log( d.arguments, 'error' );
+		break;
+		case 'console.warn':
+		log( d.arguments, 'warning' );
 		break;
 	}
 
 }
 
+function log( args, style ) {
+
+	args = [].concat( args );
+
+	console.log.apply( console, args );
+	var li = document.createElement( 'li' );
+	if( style ) li.classList.add( style );
+
+	args.forEach( function( a ) {
+		var span = document.createElement( 'span' );
+		if( typeof a === 'string' || typeof a === 'number' ) span.textContent = a;
+		else {
+			span.textContent = JSON.stringify( a );	
+		}
+		li.appendChild( span );
+	})
+	consoleOutput.appendChild( li );
+
+}
+
 function inject() {
 
-	console.warn = console.error = console.log = function() { 
+	function wrapConsole( method ) {
 
-		var args = Array.prototype.slice.call(arguments);
+		return function() { 
 
-		var data = {
-			message: 'console.log',
-			arguments: args
-		}
+			var args = Array.prototype.slice.call(arguments);
 
-		parent.postMessage( JSON.stringify( data ), '*' ) 
+			var data = {
+				message: method,
+				arguments: args
+			}
 
-	};
+			parent.postMessage( JSON.stringify( data ), '*' ) 
+
+		};
+	}
+
+	console.warn = wrapConsole( 'console.warn' );
+	console.error = wrapConsole( 'console.error' );
+	console.log = wrapConsole( 'console.log' );
 
 }
 

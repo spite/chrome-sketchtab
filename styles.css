@@ -27,3 +27,6 @@ header * { padding: 10px;}
 .rows #js-panel{ position: absolute; left: 0; top: 66.66%; width: 50%; height: 33.33%;}
 .rows #output-panel{ position: absolute; left: 50%; top: 0; width: 50%; height: 50%;}
 .rows #console-panel{ position: absolute; left: 50%; top: 50%; width: 50%; height: 50%;}
+
+li.warning{ color: orange;}
+li.error{ color: red;}
