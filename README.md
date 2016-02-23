@@ -1,5 +1,4 @@
 # Chrome SketchTab
----
 ##### New tab page with code editor
 
 A New Tab for Google Chrome with a code editor
