@@ -2,29 +2,50 @@ var htmlSrc = document.getElementById( 'html-src' );
 var cssSrc  = document.getElementById( 'css-src' );
 var jsSrc   = document.getElementById( 'js-src' );
 
-var htmlOutput    = document.getElementById( 'html-output' );
-var consoleOutput = document.getElementById( 'console-output' );
-
-[ htmlSrc, cssSrc, jsSrc ].forEach( function( src ) {
-
-	src.addEventListener( 'keyup', onUpdate );
-
-	src.addEventListener( 'keydown', function(e){
-		if(e.keyCode==9 || e.which==9){
-			e.preventDefault();
-			var s = this.selectionStart;
-			this.value = this.value.substring(0,this.selectionStart) + "  " + this.value.substring(this.selectionEnd);
-			this.selectionEnd = s + 2; 
-		}
-	} );
-
-	src.setAttribute( 'spellcheck', false );
-
-} );
-
 htmlSrc.value = localStorage[ 'htmlSrc' ] || '';
 cssSrc.value  = localStorage[ 'cssSrc' ] || '';
 jsSrc.value   = localStorage[ 'jsSrc' ] || '';
+
+// Set up Code Mirror editors
+var htmlCM = CodeMirror.fromTextArea(htmlSrc, {
+	value: htmlSrc.value,
+	mode: 'htmlmixed'
+});
+var cssCM = CodeMirror.fromTextArea(cssSrc, {
+	value: cssSrc.value,
+	mode: 'css'
+});
+var jsCM = CodeMirror.fromTextArea(jsSrc, {
+	value: jsSrc.value,
+	mode: 'javascript'
+});
+
+var htmlOutput    = document.getElementById( 'html-output' );
+var consoleOutput = document.getElementById( 'console-output' );
+
+// Not needed now the function runs on change of the CodeMirror Editor
+//
+// [ htmlSrc, cssSrc, jsSrc ].forEach( function( src ) {
+	
+// 	src.addEventListener( 'keyup', onUpdate );
+
+// 	src.addEventListener( 'keydown', function(e){
+// 		if(e.keyCode==9 || e.which==9){
+// 			e.preventDefault();
+// 			var s = this.selectionStart;
+// 			this.value = this.value.substring(0,this.selectionStart) + "  " + this.value.substring(this.selectionEnd);
+// 			this.selectionEnd = s + 2; 
+// 		}
+// 	} );
+
+// 	src.setAttribute( 'spellcheck', false );
+
+// } );
+
+cssCM.on('change', onUpdate);
+htmlCM.on('change', onUpdate);
+jsCM.on('change', onUpdate);
+
 updateSources();
 
 autoClearConsole = document.getElementById( 'autoClearConsole' );
@@ -34,6 +55,11 @@ var updateTimeout = null;
 
 function onUpdate() {
 
+	// Save Code Mirror editor to textarea
+	cssCM.save();
+	htmlCM.save();
+	jsCM.save();
+	
 	localStorage[ 'htmlSrc' ] = htmlSrc.value;
 	localStorage[ 'cssSrc' ]  = cssSrc.value;
 	localStorage[ 'jsSrc' ]   = jsSrc.value;

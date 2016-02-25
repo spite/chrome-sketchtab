@@ -31,3 +31,12 @@ header * { padding: 10px;}
 li.warning{ color: orange;}
 li.error{ color: red;}
 #sandbox{ display: none;}
+
+.CodeMirror {
+	position: absolute;
+    top: 25px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+}
