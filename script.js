@@ -91,7 +91,7 @@ function updateSources() {
 	res += '<script>' + inject.toString() + ';inject();<\/script>';
 	res += '<script>' + jsSrc.value + '<\/script>';
 
-	htmlOutput.src = "data:text/html;charset=utf-8," + escape( res );
+	htmlOutput.src = "data:text/html;charset=utf-8," + encodeURIComponent( res );
 
 }
 
