@@ -9,15 +9,18 @@ jsSrc.value   = localStorage[ 'jsSrc' ] || '';
 // Set up Code Mirror editors
 var htmlCM = CodeMirror.fromTextArea(htmlSrc, {
 	value: htmlSrc.value,
-	mode: 'htmlmixed'
+	mode: 'htmlmixed',
+	lineNumbers: true
 });
 var cssCM = CodeMirror.fromTextArea(cssSrc, {
 	value: cssSrc.value,
-	mode: 'css'
+	mode: 'css',
+	lineNumbers: true
 });
 var jsCM = CodeMirror.fromTextArea(jsSrc, {
 	value: jsSrc.value,
-	mode: 'javascript'
+	mode: 'javascript',
+	lineNumbers: true
 });
 
 var htmlOutput    = document.getElementById( 'html-output' );
