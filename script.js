@@ -49,8 +49,6 @@ cssCM.on('change', onUpdate);
 htmlCM.on('change', onUpdate);
 jsCM.on('change', onUpdate);
 
-updateSources();
-
 autoClearConsole = document.getElementById( 'autoClearConsole' );
 autoClearConsole.checked = localStorage[ 'autoClearConsole' ] === 'true';
 
@@ -77,6 +75,8 @@ var sandbox = null;
 
 function updateSources() {
 
+	localStorage[ 'executed' ] = false;
+
 	if( autoClearConsole.checked ) {
 		clearConsole();
 	}
@@ -92,7 +92,7 @@ function updateSources() {
 	var res = htmlSrc.value;
 	res += '<style>' + cssSrc.value + '<\/style>';
 	res += '<script>' + inject.toString() + ';inject();<\/script>';
-	res += '<script>' + jsSrc.value + '<\/script>';
+	res += '<script>try{' + jsSrc.value + '}catch(e){};parent.postMessage(\'executed\', \'*\');<\/script>';
 
 	htmlOutput.src = "data:text/html;charset=utf-8," + encodeURIComponent( res );
 
@@ -102,11 +102,20 @@ window.addEventListener( 'message', onMessage );
 
 function onMessage( msg ) {
 
+	if( msg.data === 'executed' ) {
+		localStorage[ 'executed' ] = true;
+		return;
+	}
+
 	var d = JSON.parse( msg.data );
 
 	if( d.message === 'sandbox' ) {
 		sandbox = msg.source;
-		updateSources();
+		if( localStorage[ 'executed' ] === "true" ) {
+			updateSources();
+		} else {
+			//alert( 'not executed' );
+		}
 		return;
 	}
 
